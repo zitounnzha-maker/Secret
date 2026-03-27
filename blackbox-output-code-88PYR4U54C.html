@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Girlfriend? 🐻💕</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fredoka One', cursive;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ff6b9d;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 20px 40px;
+            font-size: 1.5rem;
+            font-family: 'Fredoka One', cursive;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .yes-btn {
+            background: linear-gradient(45deg, #ff6b9d, #ff8e8e);
+            color: white;
+            font-weight: bold;
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(255,107,157,0.4);
+        }
+
+        .no-btn {
+            background: linear-gradient(45deg, #a8e6cf, #b8f2e6);
+            color: #333;
+            font-weight: bold;
+        }
+
+        .no-btn:hover {
+            transform: scale(0.95);
+        }
+
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: #ff6b9d;
+            animation: float 3s ease-out forwards;
+        }
+
+        @keyframes float {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+
+        .bear {
+            position: absolute;
+            font-size: 40px;
+            animation: wiggle 2s infinite;
+            z-index: 5;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .success {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            animation: celebrate 1s ease-out;
+        }
+
+        @keyframes celebrate {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .success h1 {
+            font-size: 4rem;
+            color: #ff4757;
+            margin-bottom: 20px;
+        }
+
+        .success-bears {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            button { padding: 15px 30px; font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="container">
+        <h1>🐻 Will you be my girlfriend? 🐻💕</h1>
+        <div class="buttons">
+            <button class="yes-btn" id="yesBtn" onclick="handleYes()">YES! 😍</button>
+            <button class="no-btn" id="noBtn" onclick="handleNo()">No way! 🙅‍♀️</button>
+        </div>
+    </div>
+
+    <div class="success" id="success">
+        <h1>🎉 YAYYY! 🎉</h1>
+        <p style="font-size: 2rem; color: #ff4757; margin-bottom: 30px;">I love you so much! 💖</p>
+        <div class="success-bears">
+            <div>🐻❤️</div>
+            <div>🐻❤️</div>
+            <div>🐻❤️</div>
+        </div>
+    </div>
+
+    <script>
+        let noClickCount = 0;
+        const noTexts = [
+            "No way! 🙅‍♀️",
+            "Are you sure? 🥺",
+            "Pretty please? 🐻",
+            "Don't break my heart! 💔",
+            "The bears are crying! 😢",
+            "Last chance! ✨",
+            "You can't resist forever! 😘"
+        ];
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '💕';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            document.getElementById('hearts').appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+
+        function createBear() {
+            const bears = ['🐻', '🐼', '🐨', '🧸'];
+            const bear = document.createElement('div');
+            bear.className = 'bear';
+            bear.innerHTML = bears[Math.floor(Math.random() * bears.length)];
+            bear.style.left = Math.random() * 80 + 10 + '%';
+            bear.style.top = Math.random() * 80 + 10 + '%';
+            bear.style.animationDelay = Math.random() * 2 + 's';
+            document.body.appendChild(bear);
+
+            setTimeout(() => {
+                bear.remove();
+            }, 4000);
+        }
+
+        function handleYes() {
+            document.getElementById('success').style.display = 'flex';
+            // Create lots of celebration effects
+            for(let i = 0; i < 20; i++) {
+                setTimeout(createHeart, i * 100);
+                setTimeout(createBear, i * 200);
+            }
+        }
+
+        function handleNo() {
+            noClickCount++;
+            const noBtn = document.getElementById('noBtn');
+            const yesBtn = document.getElementById('yesBtn');
+            
+            // Make YES button bigger
+            const scale = 1 + (noClickCount * 0.2);
+            yesBtn.style.transform = `scale(${scale})`;
+            yesBtn.style.fontSize = `${1.5 + (noClickCount * 0.1)}rem`;
+            
+            // Make NO button smaller and change text
+            const noScale = Math.max(0.3, 1 - (noClickCount * 0.15));
+            noBtn.style.transform = `scale(${noScale})`;
+            noBtn.style.fontSize = `${Math.max(0.8, 1.5 - (noClickCount * 0.1))}rem`;
+            
+            if (noClickCount - 1 < noTexts.length) {
+                noBtn.textContent = noTexts[noClickCount - 1];
+            }
+            
+            // Add bears and hearts when they click no
+            createBear();
+            createHeart();
+            
+            // Shake effect
+            document.body.style.animation = 'wiggle 0.5s ease-in-out';
+            setTimeout(() => {
+                document.body.style.animation = '';
+            }, 500);
+        }
+
+        // Continuous floating hearts
+        setInterval(createHeart, 2000);
+        
+        // Initial bears
+        setTimeout(createBear, 1000);
+        setTimeout(createBear, 3000);
+    </script>
+</body>
+</html>
